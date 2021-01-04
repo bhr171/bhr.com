@@ -1,283 +1,226 @@
-
-<!DOCTYPE html>
+<!DOCTYPE HTML>
 <html>
-<head>
-<title> I Love You </title>
-<link rel="shortcut icon" type="image/gif" href="http://www.goodlightscraps.com/content/i_love_you/i_love_u_25.gif" />
-<meta name="Author" content="SXT0 @sams_sitorus">
-<meta http-equiv="imagetoolbar" content="no">
-<style type="text/css">
-html {
-overflow: hidden;
+<head><title>Hai vi</title>
+<!-- Created By L3M4R1 -->
+<script>alert ('hai')
+alert ('Ini isi hatiku yang sesungguhnya')</script>
+<script language="JavaScript"> 
+ 
+function tb5_makeArray(n){
+ this.length = n;
+ return this.length;
 }
-body {
-position: absolute;
-margin: 0px;
-padding: 0px;
-background: #000000;
-width: 100%;
-height: 100%;
+ 
+tb5_messages = new tb5_makeArray(7);
+tb5_messages[0] = "Hay Via";
+tb5_messages[1] = "Aku Mau Kamu Tau";
+tb5_messages[2] = "Aku Sayang Sama Kamu";
+tb5_messages[3] = "Aku Serius Vi";
+tb5_messages[4] = "Kamu Mau Ngga Jadi Pacar ku";
+tb5_messages[5] = "Aku berharap kamu menerimanya";
+tb5_messages[6] = "I Love You via!!!";
+tb5_rptType = 'infinite';
+tb5_rptNbr = 20;
+tb5_speed = 30;
+tb5_delay = 2000;
+var tb5_counter=2;
+var tb5_currMsg=0;
+var tb5_stsmsg="";
+function tb5_shuffle(arr){
+var k;
+for (i=0; i<arr.length; i++){
+ k = Math.round(Math.random() * (arr.length - i - 1)) + i;
+ temp = arr[i];arr[i]=arr[k];arr[k]=temp;
 }
-#container {
-position: absolute;
-background: URL("http://t1.gstatic.com/images?q=tbn:ANd9GcRoFjbUHdzs7hJEojGCi9r5vJwzNiDKbMf8N_Cz4zvp0dIGAPRo");
-left: 50%;
-top: 50%;
-width: 640px;
-height: 360px;
-margin-left: -320px;
-margin-top: -180px;
-overflow: hidden;
-font-size: 1em;
-box-shadow: 10px 10px 5px #999;
+return arr;
 }
-#inkp1 {
-position: absolute;
-top: 55px;
-left: 10px;
+tb5_arr = new tb5_makeArray(tb5_messages[tb5_currMsg].length);
+tb5_sts = new tb5_makeArray(tb5_messages[tb5_currMsg].length);
+for (var i=0; i<tb5_messages[tb5_currMsg].length; i++){
+ tb5_arr[i] = i;
+ tb5_sts[i] = "_";
 }
-#inkp2 {
-position: absolute;
-top: 55px;
-left: 10px;
+tb5_arr = tb5_shuffle(tb5_arr);
+function tb5_init(n){
+var k;
+if (n == tb5_arr.length){
+ if (tb5_currMsg == tb5_messages.length-1){
+ if ((tb5_rptType == 'finite') && (tb5_counter==tb5_rptNbr)){
+ clearTimeout(tb5_timerID);
+ return;
+ }
+ tb5_counter++;
+ tb5_currMsg=0;
+ }
+ else{
+ tb5_currMsg++;
+ }
+ n=0;
+ tb5_arr = new tb5_makeArray(tb5_messages[tb5_currMsg].length);
+ tb5_sts = new tb5_makeArray(tb5_messages[tb5_currMsg].length);
+ for (var i=0; i<tb5_messages[tb5_currMsg].length; i++){
+ tb5_arr[i] = i;
+ tb5_sts[i] = "_";
+ }
+ tb5_arr = tb5_shuffle(tb5_arr);
+ tb5_sp=tb5_delay;
 }
-#sound {
-position: absolute;
-right: 15px;
-bottom: 15px;
-cursor: pointer;
+else{
+ tb5_sp=tb5_speed;
+ k = tb5_arr[n];
+ tb5_sts[k] = tb5_messages[tb5_currMsg].charAt(k);
+ tb5_stsmsg = "";
+ for (var i=0; i<tb5_sts.length; i++)
+ tb5_stsmsg += tb5_sts[i];
+ document.title = tb5_stsmsg;
+ n++;
+ }
+ tb5_timerID = setTimeout("tb5_init("+n+")", tb5_sp);
 }
-#typewriter {
-position: absolute;
-width: 100%;
-height: 100%;
-overflow: hidden;
+function tb5_randomizetitle(){
+ tb5_init(0);
 }
-#resources {
-display:none;
-}
-</style>
-<script type="text/javascript">
-// ===============================================
-// ---- QUILL TYPEWRITER ---
-// Script by sam_xto
-
-// Edited script - October'13
-// ===============================================
-// http://www.samuelscouter.blogspot.com
-// ===============================================
-
-"use strict";
-
-(function () {
-var t = "", p = 0, c = "", cc = "", mm = "<span>";
-var cl = 0, mr = "<br><br>", context, inkFreq, spdInk, mute = false;
-var $ = function (id) {
-return document.getElementById(id);
-}
-var init = function (data) {
-context = $(data.context);
-inkFreq = data.inkFreq;
-spdInk = data.spdInk;
-t = $(data.text).innerHTML;
-c = " <img src='" + $("cursor").src + "' style='position:absolute'>" + mr;
-run();
-$("write").play();
-$("sound").addEventListener('click', function () {
-mute = !mute;
-if (mute) {
-$("sound").style.opacity = "0.3";
-$("music").pause();
-} else {
-$("sound").style.opacity = "1";
-$("music").play();
-}
-}, false);
-}
-var run = function () {
-var m = t.charAt(p);
-var tmp = 32;
-if (m == "") cc = mr;
-else if (m == "|") {
-m = "";
-mm = mm.substring(0, mm.length-1);
-tmp = 64;
-} else if (m == "<") {
-var av = t.indexOf(">", p);
-m = t.substring(p, av + 1);
-p = av;
-} else if (m == "&") {
-var av = t.indexOf(";", p);
-m = t.substring(p, av + 1);
-p = av;
-} else if (m == ".") tmp = 250;
-else if (m == ",") tmp = 100;
-else if (m == " ") tmp = 32;
-else if (p > 10) cc = c;
-if (m == " ") {
-cl += spdInk;
-m = '</span><span style="color:RGB(' + (cl) + ',' + (cl) + ',' + (cl) + ')">' + m;
-if (cl < 40 && Math.random() > inkFreq)
-m += ' <img src = "' + $("ink").src + '" align = "absmiddle"> ';
-}
-if ($("inkp2").style.visibility == "visible") {
-cc = c;
-$("inkp2").style.visibility = "hidden";
-$("reload").pause();
-$("write").play();
-m = '</span><span style="color:RGB(0,0,0)">' + m;
-}
-if (cl > 180) {
-cl = 0;
-$("inkp2").style.visibility = "visible";
-$("reload").play();
-$("write").pause();
-tmp = 1000;
-cc = mr;
-}
-mm += m;
-if (p == t.length - 1) cc = mr;
-context.innerHTML = mm + cc;
-context.scrollTop = 100000;
-p++;
-if (p < t.length) setTimeout(run, 32 + tmp);
-else {
-$("reload").pause();
-$("write").pause();
-context.style.overflow = "auto";
-}
-}
-return {
-load : function (data) {
-window.addEventListener('load', function () {
-setTimeout(function () {
-init(data);
-}, 900);
-}, false);
-}
-}
-})().load({
-text: "text",
-context: "typewriter",
-inkFreq: 0.7,
-spdInk: 12
-});
+tb5_randomizetitle();
+ 
 </script>
-</style>
-
+</br><center><a href="http://L3m4r1.blogspot.com"><img src="https://assets.jalantikus.com/assets/cache/500/346/userfiles/2018/11/15/gambar-anime-romantis-10-3bbdd.jpg"alt="Lolykuu" width="30% atau xpx" height="40% atau ypx"/></a> 
 </head>
-<br>
+<body BGCOLOR="black">
+<center><center>
+<br><font size="6"><font color="red" face="courier new">Touched by:L3M4R1</font>
+<br><br><!-- Created By L3M4R1 -->
+<font size="5"><font color="white" face="courier new">Hai ini dia isi hatiku yang sesungguhnya</font>
+<br><font size="5"><font color="white" face="courier new">Selama ini ku hanya dapat diam dan berdoa kepada Yang Kuasa agar diri mu bisa bersamaku</font>
+<br><font size="5"><font color="white" face="courier new">Namun kali ini Aku ingin mengutarakannya</font>
+<br><font size="5"><font color="white" face="courier new">Mau ga jadi pacarku?!?</font>
+<br><a href="https://api.whatsapp.com/send?phone=6283198529028&text=Ya%20aku%20Mau%20Terima"><input type="button" value="Yes I do" onclick="alert('Thanks yah udah mau trima aku apa ada nya');" style="font size="5"></a><><><><a href="https://api.whatsapp.com/send?phone=6283198529028&text=maaf%20aku%20nggabisa%20Terima"><input type="button" value=" Im sorry" onclick="alert('Baik lah kalau itu mau mu ^_^');" style="font size="5"></a>
+<br><br><br><hr color="red"><!-- Created By L3M4R1 -->
+<font size="4"><font color="white" face="courier new">("Thanks to:")</font>
+<marquee><font size="3"><font color="white" face="courier new">[FCSI-Purbalingga Black Hat-Pekalongan Cyber Ghost-Dark Force Army-Indonesia Cyber Lite-Cyber Patah Hati-Hacker Patah Hati-INSULINDER TEAM-Sora Cyber Team-Cyber Kacang Team-Galau Cyber Team-Never Die AFK Cyber-Dunsanak Cyber Security-Kentang Cyber Security-Lollycorp Team-GHD Cyber Army Team-JancoXploit-N45HT-coizter_team]</marquee>
+<br><br><font size="4.5"><font color="white" face="courier new">My friends:)</font>
+<br><font size="3.5"><font color="white" face="courier new">[Mr.FOX-Brilly4n-0N3FR13ND5-M4RV3L0U5-K3NZO-katenbad-5TUP1D-B0Y- All member Ghost Hunter Illusion]</font>
+<br><br><br><a href="http://m.facebook.com/L3M4R1.go.id"><input type="button" value="Contact me on facebook" onclick="alert('Loading, click ok');""></a>
+</body>
+<style type="text/css">
+body, a:hover {cursor: url(http://cur.cursors-4u.net/cursors/cur-9/cur862.ani), url(http://cur.cursors-4u.net/cursors/cur-9/cur862.png), progress !important; 
+</style>
 
-<img src="https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcS0Ejcxxl8P6O5911voZzGw20r9xNTCGteo15knrp5C0PIk6zbOvw" align="right">
 
-<img src="https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcS0Ejcxxl8P6O5911voZzGw20r9xNTCGteo15knrp5C0PIk6zbOvw" align="left">
 
-<body oncontextmenu='return false;' onkeydown='return false;' onmousedown='return false;'><script type="text/javascript">
-    function setAttributeOnload(object, attribute, val) {
-      if(window.addEventListener) {
-        window.addEventListener('load',
-          function(){ object[attribute] = val; }, false);
-      } else {
-        window.attachEvent('onload', function(){ object[attribute] = val; });
-      }
-    }
-  </script>
-<div id="navbar-iframe-container"></div>
-<script type="text/javascript" src="https://apis.google.com/js/plusone.js"></script>
+<style type="text/css">
 
-<div id="container">
-<div id="typewriter">
-</div>
-<img id="inkp1" src="http://www.casperia.com/Esempio%20completo/encrierplume.gif" alt="">
-<img id="inkp2" src="http://www.casperia.com/Esempio%20completo/encrierplume.gif" alt="">
-<img id="sound" src="http://www.drac-101code.com/speaker_silent_32.png" alt="">
-</div>
-<div id="resources">
-<img id="ink" src="http://www.drac-101code.com/tache.jpg" alt="">
-<img id="cursor" src="http://www.verkehrsverein-messinghausen.de/images/plumeBouge.gif" alt="">
-<div id="text">
-<div style="margin: 1em;margin-left:100px;font-style:italic;font-family:arial, Comic Sans MS;font-size:1em;">
+#outerCircleText {
 
-Biarlah aku mengagumi<br>
-Biarkan aku memandangmu<br>
-Biarkan aku menikmati indahnya senyummu<br>
-Walaupun itu semua ku lakukan dari kejauhan<br>
-Yang mungkin takkan pernah kau sadari.<br>
-Aku lakukan hal itu,<br>
-Bukan semata-mata karna ku malu.<br>
-Tapi,<br>
-Aku takut jika nanti aku tidak bisa berbicara<br>
-Aku juga takut tidak bisa membuatmu tertawa<br>
-Karena aku juga tidak romantis<br>
-Mungkin......<br>
-Aku memang bukan orang yang baik untukmu.<br>
-Namun,<br>
-Atas semua itu,<br>
-Aku menyayangimu<br>
-Aku  takut kehilanganmu<br>
-Ingatlah suatu hal,<br>
-Aku juga sangat mencintaimu.<br>
-<br>
-I <span style="color:red; font-family:arial, comic sans ms;">Love</span> You<br>
+font-style: courier new;
+font-weight: bold;
+font-family: 'comic sans ms', verdana, arial;
+color: white;
 
-</div>
-</div>
-</div>
-<audio id="write" preload="auto" loop>
-<source src="http://www.dhteumeuleu.com/sound/plume.mp3" type="audio/mpeg">
-<source src="http://www.dhteumeuleu.com/sound/plume.ogg" type="audio/ogg">
-</audio>
+position: absolute;top: 0;left: 0;z-index: 3000;cursor: default;}
+#outerCircleText div {position: relative;}
+#outerCircleText div div {position: absolute;top: 0;left: 0;text-align: center;}
 
-<audio id="reload" preload="auto" loop>
-<source src="http://www.dhteumeuleu.com/sound/pop.mp3" type="audio/mpeg">
-<source src="http://www.dhteumeuleu.com/sound/pop.ogg" type="audio/ogg">
-</audio>
-
-<source src="http://www.dhteumeuleu.com//sound/Albeniz_Asturias_converted.ogg" type="audio/ogg">
-</audio>
-<img style="visibility:hidden;width:0px;height:0px;" border=0 width=0 height=0 src="http://c.gigcount.com/wildfire/IMP/CXNID=2000002.0NXC/bT*xJmx*PTEzNDgzOTQyNzcxMjUmcHQ9MTM*ODM5NDMzNTA2MiZwPTEzNzkyMSZkPSZnPTEmbz1lNDM1NjMyNTA1ZDE*ODhlOWVh/NjBmZmUyOTcyYmVmZiZvZj*w.gif" /> <center>
-<embed width="5" height="5" flashvars="playerID=1&bg=0xffffff&leftbg=0xCA4536&lefticon=0xffffff&rightbg=0xCA4536&rightbghover=0x999999&righticon=0xffffff&righticonhover=0xffffff&text=0xCA4536&slider=0x303030&track=0xFFFFFF&border=0x666666&loader=0xC52C24&autostart=yes&loop=yes&soundFile=http://videokeman.com/dload/flvs/v17/Secondhand_Serenade-Your_Call.doc" wmode="transparent" src="http://videokeman.com/music/videokemanplay.swf"></embed>
-<br /><small><a href="http://www.musicdumper.com/" target="_blank"></a></small></center>
+</style>
 <script type="text/javascript">
-//Define first typing example:
-new TypingText(document.getElementById("example1"));
-//Define second typing example (use "slashing" cursor at the end):
-new TypingText(document.getElementById("example2"), 50, function(i){
-var ar = new Array("_"," ","_"," "," "); return " " + ar[i.length %
-ar.length]; });
-//Type out examples:
-TypingText.runAll();
-</script>
-<script language="JavaScript1.2">
-function disableselect(e){
-return false
-}
-function reEnable(){
-return true
-}
-document.onselectstart=new Function ("return false")
-if (window.sidebar){
-document.onmousedown=disableselect
-document.onclick=reEnable
-}
-</script>
 
-    <script language=JavaScript>
-    <!--
-   //Disable right click script III- By SXT0
-   //For full source code, visit http://www.samuelscouter.blogspot.com
-   var message="";
-   ///////////////////////////////////
-   function clickIE() {if (document.all) {(message);return false;}}
-   function clickNS(e) {if
-   (document.layers||(document.getElementById&&!document.all)) {
-   if (e.which==2||e.which==3) {(message);return false;}}}
-   if (document.layers)
-   {document.captureEvents(Event.MOUSEDOWN)
-   ;document.onmousedown=clickNS;}
-   else{document.onmouseup=clickNS;document.oncontextmenu=clickIE;}
-   document.oncontextmenu=new Function("return false")
-   // -->
-    </script>
-        <script type="text/javascript" src="//www.blogger.com/static/v1/common/js/1447355603-csitail.js"></script>
- Ket >>
+
+;(function(){
+
+
+var msg = " Love you via:*";
+
+var size = 15;
+
+
+var circleY = 0.75; var circleX = 2;
+
+var letter_spacing = 4;
+
+var diameter = 10;
+
+
+var rotation = 0.2;
+
+var speed = 0.3;
+
+
+
+if (!window.addEventListener && !window.attachEvent || !document.createElement) return;
+
+msg = msg.split('');
+var n = msg.length - 1, a = Math.round(size * diameter * 0.208333), currStep = 20,
+ymouse = a * circleY + 20, xmouse = a * circleX + 20, y = [], x = [], Y = [], X = [],
+o = document.createElement('div'), oi = document.createElement('div'),
+b = document.compatMode && document.compatMode != "BackCompat"? document.documentElement : document.body,
+
+mouse = function(e){
+ e = e || window.event;
+ ymouse = !isNaN(e.pageY)? e.pageY : e.clientY; // y-position
+ xmouse = !isNaN(e.pageX)? e.pageX : e.clientX; // x-position
+},
+
+makecircle = function(){ // rotation/positioning
+ if(init.nopy){
+  o.style.top = (b || document.body).scrollTop + 'px';
+  o.style.left = (b || document.body).scrollLeft + 'px';
+ };
+ currStep -= rotation;
+ for (var d, i = n; i > -1; --i){ // makes the circle
+  d = document.getElementById('iemsg' + i).style;
+  d.top = Math.round(y[i] + a * Math.sin((currStep + i) / letter_spacing) * circleY - 15) + 'px';
+  d.left = Math.round(x[i] + a * Math.cos((currStep + i) / letter_spacing) * circleX) + 'px';
+ };
+},
+
+drag = function(){ // makes the resistance
+ y[0] = Y[0] += (ymouse - Y[0]) * speed;
+ x[0] = X[0] += (xmouse - 20 - X[0]) * speed;
+ for (var i = n; i > 0; --i){
+  y[i] = Y[i] += (y[i-1] - Y[i]) * speed;
+  x[i] = X[i] += (x[i-1] - X[i]) * speed;
+ };
+ makecircle();
+},
+
+init = function(){ 
+ if(!isNaN(window.pageYOffset)){
+  ymouse += window.pageYOffset;
+  xmouse += window.pageXOffset;
+ } else init.nopy = true;
+ for (var d, i = n; i > -1; --i){
+  d = document.createElement('div'); d.id = 'iemsg' + i;
+  d.style.height = d.style.width = a + 'px';
+  d.appendChild(document.createTextNode(msg[i]));
+  oi.appendChild(d); y[i] = x[i] = Y[i] = X[i] = 0;
+ };
+ o.appendChild(oi); document.body.appendChild(o);
+ setInterval(drag, 25);
+},
+
+ascroll = function(){
+ ymouse += window.pageYOffset;
+ xmouse += window.pageXOffset;
+ window.removeEventListener('scroll', ascroll, false);
+};
+
+o.id = 'outerCircleText'; o.style.fontSize = size + 'px';
+
+if (window.addEventListener){
+ window.addEventListener('load', init, false);
+
+ document.addEventListener('mouseover', mouse, false);
+ document.addEventListener('mousemove', mouse, false);
+  if (/Apple/.test(navigator.vendor))
+   window.addEventListener('scroll', ascroll, false);
+}
+else if (window.attachEvent){
+ window.attachEvent('onload', init);
+ document.attachEvent('onmousemove', mouse);
+};
+
+})();
+
+</script>
+<!-- copyright@2k19 by L3M4R1 --> <!-- Tolong jangan hapus copyright nya yah :v tolong hargai karya saya L3M4R1 -->
+<iframe width="0%" height="0" scrolling="no" frameborder="no" allow="autoplay" src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/314301457&color=%23ff5500&auto_play=true&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true&visual=true"></iframe>
+</html>
